@@ -1,0 +1,33 @@
+{
+  "name": "fae-ton",
+  "version": "1.0.0",
+  "description": "TON smart contracts monorepo using Tact and Blueprint",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "build:contracts": "tsx scripts/build.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "deploy": "tsx scripts/deploy.ts",
+    "deploy:testnet": "tsx scripts/deploy.ts --network testnet",
+    "deploy:mainnet": "tsx scripts/deploy.ts --network mainnet",
+    "script": "tsx",
+    "clean": "rimraf build dist"
+  },
+  "devDependencies": {
+    "@ton/blueprint": "^0.39.1",
+    "@ton/sandbox": "^0.36.0",
+    "@types/node": "^20.0.0",
+    "ton": "^13.9.0",
+    "ton-core": "^0.53.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "ton-core": "^0.53.0"
+  },
+  "packageManager": "pnpm@8.0.0"
+}
