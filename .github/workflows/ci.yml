@@ -14,24 +14,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'pnpm'
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-
     - name: Install dependencies
       run: pnpm install
 
     - name: Build contracts
-      run: pnpm run build:contracts
-
-    - name: Build TypeScript
       run: pnpm run build
 
     - name: Run tests
@@ -54,16 +51,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'pnpm'
-
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
 
     - name: Install dependencies
       run: pnpm install
@@ -79,16 +76,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'pnpm'
-
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
 
     - name: Install dependencies
       run: pnpm install
@@ -103,13 +100,8 @@ jobs:
           exit 1
         fi
         
-        if [ ! -f "contracts/interfaces/Treasury.iface.tact" ]; then
-          echo "❌ Treasury.iface.tact not found"
-          exit 1
-        fi
-        
-        if [ ! -f "contracts/lib/LinearWeights.tact" ]; then
-          echo "❌ LinearWeights.tact not found"
+        if [ ! -f "contracts/counter.tact" ]; then
+          echo "❌ counter.tact not found"
           exit 1
         fi
         
@@ -120,7 +112,7 @@ jobs:
         echo "🔍 Validating script structure..."
         
         # Check if all required script files exist
-        required_scripts=("utils.ts" "openRoom.ts" "enterPaid.ts" "closeRoom.ts" "payoutPaid.ts" "fundAirdrop.ts" "payoutAirdrop.ts" "upgrade.ts")
+        required_scripts=("build.ts" "deploy.ts" "utils.ts")
         
         for script in "${required_scripts[@]}"; do
           if [ ! -f "scripts/$script" ]; then
@@ -136,7 +128,7 @@ jobs:
         echo "🔍 Validating test structure..."
         
         # Check if all required test files exist
-        required_tests=("treasury.paid.test.ts" "treasury.airdrop.test.ts" "treasury.security.test.ts")
+        required_tests=("treasury.paid.test.ts" "treasury.airdrop.test.ts" "treasury.test.ts" "counter.test.ts")
         
         for test in "${required_tests[@]}"; do
           if [ ! -f "tests/$test" ]; then
@@ -146,6 +138,21 @@ jobs:
         done
         
         echo "✅ All test files present"
+
+    - name: Validate build output
+      run: |
+        echo "🔍 Validating build output..."
+        
+        # Run build to ensure contracts compile
+        pnpm run build
+        
+        # Check if build artifacts were created
+        if [ ! -f "build/build-info.json" ]; then
+          echo "❌ Build info not generated"
+          exit 1
+        fi
+        
+        echo "✅ Build output validated"
 
   documentation:
     runs-on: ubuntu-latest
