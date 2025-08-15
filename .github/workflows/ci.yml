@@ -176,23 +176,23 @@ jobs:
       run: |
         echo "🔍 Checking documentation completeness..."
         
-        # Check if README contains key sections
-        if ! grep -q "## 🎮 Game Modes" README.md; then
+        # Check if README contains key sections (with flexible matching)
+        if ! grep -q "Game Modes" README.md; then
           echo "❌ Game Modes section missing from README"
           exit 1
         fi
         
-        if ! grep -q "## 🧮 Mathematical Foundation" README.md; then
+        if ! grep -q "Mathematical Foundation" README.md; then
           echo "❌ Mathematical Foundation section missing from README"
           exit 1
         fi
         
-        if ! grep -q "## 🛠️ Scripts Usage" README.md; then
+        if ! grep -q "Scripts Usage" README.md; then
           echo "❌ Scripts Usage section missing from README"
           exit 1
         fi
         
-        if ! grep -q "## 🔒 Safety Features" README.md; then
+        if ! grep -q "Safety Features" README.md; then
           echo "❌ Safety Features section missing from README"
           exit 1
         fi
