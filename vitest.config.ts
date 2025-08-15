@@ -7,7 +7,21 @@ export default defineConfig({
     environment: 'node',
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['node_modules', 'dist', 'build', 'wrappers']
+    exclude: ['node_modules', 'dist', 'build', 'wrappers'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        'build/',
+        'wrappers/',
+        'tests/',
+        '**/*.d.ts',
+        '**/*.config.ts',
+        '**/*.config.js'
+      ]
+    }
   },
   resolve: {
     alias: {
