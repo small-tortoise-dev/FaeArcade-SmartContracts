@@ -20,13 +20,13 @@
     "@ton/blueprint": "^0.39.1",
     "@ton/sandbox": "^0.36.0",
     "@types/node": "^20.0.0",
-    "ton": "^13.9.0",
+    "@vitest/coverage-v8": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "ton": "^6.13.1",
     "ton-core": "^0.53.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
-    "vitest": "^2.0.0",
-    "@vitest/coverage-v8": "^2.0.0",
-    "rimraf": "^5.0.0"
+    "vitest": "^3.0.0"
   },
   "dependencies": {
     "@tact-lang/compiler": "^1.6.13",
