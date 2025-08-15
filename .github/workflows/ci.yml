@@ -14,28 +14,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'pnpm'
+        cache: 'npm'
 
     - name: Install dependencies
-      run: pnpm install
+      run: npm install
 
     - name: Build contracts
-      run: pnpm run build
+      run: npm run build
 
     - name: Run tests
-      run: pnpm test
+      run: npm test
 
     - name: Run test coverage
-      run: pnpm run test:coverage
+      run: npm run test:coverage
 
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
@@ -51,22 +46,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'pnpm'
+        cache: 'npm'
 
     - name: Install dependencies
-      run: pnpm install
+      run: npm install
 
     - name: Run security audit
-      run: pnpm audit --audit-level moderate
+      run: npm audit --audit-level moderate
 
   contract-validation:
     runs-on: ubuntu-latest
@@ -76,19 +66,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'pnpm'
+        cache: 'npm'
 
     - name: Install dependencies
-      run: pnpm install
+      run: npm install
 
     - name: Validate contract structure
       run: |
@@ -144,7 +129,7 @@ jobs:
         echo "🔍 Validating build output..."
         
         # Run build to ensure contracts compile
-        pnpm run build
+        npm run build
         
         # Check if build artifacts were created
         if [ ! -f "build/build-info.json" ]; then
