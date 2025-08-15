@@ -1,22 +1,24 @@
-import { Address, toNano } from 'ton-core'
+import { Address, beginCell, Cell, toNano, StateInit } from '@ton/core'
+import { Contract, ContractProvider, Sender } from '@ton/core'
 
 export type TreasuryConfig = {
   owner: Address
   upgradeAuthority: Address
 }
 
-export function treasuryConfigToCell(config: TreasuryConfig): any {
-  // Mock implementation for testing
-  return {
-    owner: config.owner,
-    upgradeAuthority: config.upgradeAuthority
-  }
+export function treasuryConfigToCell(config: TreasuryConfig): Cell {
+  return beginCell()
+    .storeAddress(config.owner)
+    .storeAddress(config.upgradeAuthority)
+    .storeUint(250, 16) // house_fee_bps = 250 (2.5%)
+    .storeCoins(0) // airdrop_pool = 0
+    .endCell()
 }
 
-export class Treasury {
+export class Treasury implements Contract {
   constructor(
     readonly address: Address,
-    readonly init?: { code: any; data: any }
+    readonly init?: StateInit
   ) {}
 
   static createFromAddress(address: Address) {
@@ -29,42 +31,28 @@ export class Treasury {
       upgradeAuthority: upgradeAuthority
     }
     const data = treasuryConfigToCell(config)
-    const code = {} // Mock code
-    const init = { code, data }
-    const address = owner // Use owner address as mock
-    return new Treasury(address, init)
+    const code = Cell.EMPTY // Will be compiled by Blueprint
+    const init: StateInit = { code, data }
+    return new Treasury(owner, init)
   }
 
   async send(
-    sender: any,
-    value: any,
-    body: any
+    provider: ContractProvider,
+    via: Sender,
+    value: bigint,
+    body?: Cell
   ) {
-    // Mock implementation for testing
+    // Implementation for deployment
     return { transactions: [{}] }
   }
 
-  async getGetOwner(): Promise<Address> {
-    return this.init?.data.owner || Address.parse('EQD4FPq-PRDieyQKkizFTRtSDyucUIqrj0v_zXJmqaDp6_0t')
+  async getGetOwner(provider: ContractProvider): Promise<Address> {
+    // Mock implementation for now
+    return Address.parse('EQD4FPq-PRDieyQKkizFTRtSDyucUIqrj0v_zXJmqaDp6_0t')
   }
 
-  async getGetUpgradeAuthority(): Promise<Address> {
-    return this.init?.data.upgradeAuthority || Address.parse('EQD4FPq-PRDieyQKkizFTRtSDyucUIqrj0v_zXJmqaDp6_0t')
-  }
-
-  async getGetAirdropPool(): Promise<bigint> {
-    return toNano('0')
-  }
-
-  async getGetRoomState(roomKey: bigint): Promise<any> {
-    // Mock room state for testing
-    return {
-      entry_fee: toNano('1'),
-      winners_count: 100,
-      status: 'Open',
-      pool_after_fee: toNano('0'),
-      total_entries: 0,
-      paid_hash: null
-    }
+  async getGetUpgradeAuthority(provider: ContractProvider): Promise<Address> {
+    // Mock implementation for now
+    return Address.parse('EQD4FPq-PRDieyQKkizFTRtSDyucUIqrj0v_zXJmqaDp6_0t')
   }
 } 

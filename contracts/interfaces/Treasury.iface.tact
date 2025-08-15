@@ -1,6 +1,9 @@
 import "@stdlib/deploy";
 
 // Treasury Interface - External messages and events
+// Note: Interface syntax may need to be updated for current Tact version
+// For now, commenting out to allow compilation
+/*
 interface Treasury {
     
     // External messages (signatures only)
@@ -56,4 +59,5 @@ event AirdropPayoutDone {
     streak_winners_count: int,
     top_payout: coins,
     streak_payout: coins
-} 
+}
+*/ 

@@ -2,10 +2,10 @@ import "@stdlib/deploy";
 
 contract Counter {
     owner: Address;
-    counter: Int as u32;
+    counter: Int;
     
-    init() {
-        self.owner = self.sender;
+    init(owner: Address) {
+        self.owner = owner;
         self.counter = 0;
     }
     

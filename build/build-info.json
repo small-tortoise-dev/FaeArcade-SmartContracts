@@ -1,8 +1,11 @@
 {
-  "timestamp": "2025-08-14T16:33:26.432Z",
+  "timestamp": "2025-08-15T06:56:30.096Z",
   "version": "1.0.0",
   "contracts": [
-    "Counter"
+    "counter",
+    "Treasury"
   ],
-  "status": "built"
+  "status": "built",
+  "totalContracts": 2,
+  "successfulCompilations": 2
 }

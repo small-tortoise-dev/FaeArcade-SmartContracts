@@ -1,7 +1,11 @@
 import "@stdlib/deploy";
 
 // Linear Weights Library - Helper functions for weighted payouts
-library LinearWeights {
+contract LinearWeights {
+    
+    init() {
+        // Library contract initialization
+    }
     
     // Calculate total weight for n participants using formula: n(n+1)/2
     // This implements linear weighted distribution where 1st place gets n points, 2nd gets n-1, etc.

@@ -1,0 +1,297 @@
+#pragma version =0.4.6;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+;; Treasury.tact_Treasury.headers.fc
+;;
+;; Header files for Treasury
+;; NOTE: declarations are sorted for optimal order
+;;
+
+;; $Treasury$_store
+builder $Treasury$_store(builder build_0, (slice, slice, int, cell) v) inline;
+
+;; $Treasury$_load
+(slice, ((slice, slice, int, cell))) $Treasury$_load(slice sc_0) inline;
+
+;; $Treasury$init$_load
+(slice, ((slice, slice))) $Treasury$init$_load(slice sc_0) inline;
+
+;; $Treasury$_contract_init
+(slice, slice, int, cell) $Treasury$_contract_init(slice $owner, slice $upgrade_authority) impure inline;
+
+;; $Treasury$_contract_load
+(slice, slice, int, cell) $Treasury$_contract_load() impure inline;
+
+;; $Treasury$_contract_store
+() $Treasury$_contract_store((slice, slice, int, cell) v) impure inline;
+
+;; $Treasury$_fun_getOwner
+((slice, slice, int, cell), slice) $Treasury$_fun_getOwner((slice, slice, int, cell) $self) impure inline_ref;
+
+;; $Treasury$_fun_getUpgradeAuthority
+((slice, slice, int, cell), slice) $Treasury$_fun_getUpgradeAuthority((slice, slice, int, cell) $self) impure inline_ref;
+
+;; $Treasury$_fun_getAirdropPool
+((slice, slice, int, cell), int) $Treasury$_fun_getAirdropPool((slice, slice, int, cell) $self) impure inline_ref;
+
+
+;; Treasury.tact_Treasury.stdlib.fc
+global (int, slice, int, slice) __tact_context;
+global slice __tact_context_sender;
+global cell __tact_child_contract_codes;
+global int __tact_randomized;
+
+;; Treasury.tact_Treasury.storage.fc
+;;
+;; Type: Treasury
+;; TLB: _ owner:address upgrade_authority:address airdrop_pool:int257 rooms:dict<int, int> = Treasury
+;;
+
+builder $Treasury$_store(builder build_0, (slice, slice, int, cell) v) inline {
+    var (v'owner, v'upgrade_authority, v'airdrop_pool, v'rooms) = v;
+    build_0 = build_0.store_slice(v'owner);
+    build_0 = build_0.store_slice(v'upgrade_authority);
+    build_0 = build_0.store_int(v'airdrop_pool, 257);
+    build_0 = build_0.store_dict(v'rooms);
+    return build_0;
+}
+
+(slice, ((slice, slice, int, cell))) $Treasury$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'upgrade_authority = sc_0~load_msg_addr();
+    var v'airdrop_pool = sc_0~load_int(257);
+    var v'rooms = sc_0~load_dict();
+    return (sc_0, (v'owner, v'upgrade_authority, v'airdrop_pool, v'rooms));
+}
+
+(slice, ((slice, slice))) $Treasury$init$_load(slice sc_0) inline {
+    var v'owner = sc_0~load_msg_addr();
+    var v'upgrade_authority = sc_0~load_msg_addr();
+    return (sc_0, (v'owner, v'upgrade_authority));
+}
+
+(slice, slice, int, cell) $Treasury$_contract_load() impure inline {
+    slice $sc = get_data().begin_parse();
+    int $loaded = $sc~load_int(1);
+    if ($loaded) {
+        return $sc~$Treasury$_load();
+    }
+    else {
+        (slice $owner, slice $upgrade_authority) = $sc~$Treasury$init$_load();
+        $sc.end_parse();
+        return $Treasury$_contract_init($owner, $upgrade_authority);
+    }
+}
+
+() $Treasury$_contract_store((slice, slice, int, cell) v) impure inline {
+    builder b = begin_cell();
+    b = b.store_int(true, 1);
+    b = $Treasury$_store(b, v);
+    set_data(b.end_cell());
+}
+
+;;
+;; Contract Treasury functions
+;;
+
+(slice, slice, int, cell) $Treasury$_contract_init(slice $owner, slice $upgrade_authority) impure inline {
+    var (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms)) = (null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'upgrade_authority = $upgrade_authority;
+    $self'airdrop_pool = 0;
+    return ($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms);
+}
+
+((slice, slice, int, cell), slice) $Treasury$_fun_getOwner((slice, slice, int, cell) $self) impure inline_ref {
+    var (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms)) = $self;
+    var $fresh$ret_0 = $self'owner;
+    return (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms), $fresh$ret_0);
+}
+
+((slice, slice, int, cell), slice) $Treasury$_fun_getUpgradeAuthority((slice, slice, int, cell) $self) impure inline_ref {
+    var (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms)) = $self;
+    var $fresh$ret_1 = $self'upgrade_authority;
+    return (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms), $fresh$ret_1);
+}
+
+((slice, slice, int, cell), int) $Treasury$_fun_getAirdropPool((slice, slice, int, cell) $self) impure inline_ref {
+    var (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms)) = $self;
+    var $fresh$ret_2 = $self'airdrop_pool;
+    return (($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms), $fresh$ret_2);
+}
+
+;;
+;; Get methods of a Contract Treasury
+;;
+
+_ %getOwner() method_id(102025) {
+    var self = $Treasury$_contract_load();
+    var res = self~$Treasury$_fun_getOwner();
+    return res;
+}
+
+_ %getUpgradeAuthority() method_id(130873) {
+    var self = $Treasury$_contract_load();
+    var res = self~$Treasury$_fun_getUpgradeAuthority();
+    return res;
+}
+
+_ %getAirdropPool() method_id(94920) {
+    var self = $Treasury$_contract_load();
+    var res = self~$Treasury$_fun_getAirdropPool();
+    return res;
+}
+
+;;
+;; Routing of a Contract Treasury
+;;
+
+;; message opcode reader utility: only binary receivers
+;; Returns 32 bit message opcode, otherwise throws the "Invalid incoming message" exit code
+(slice, int) ~load_opcode_internal(slice s) asm( -> 1 0) "32 LDUQ 130 THROWIFNOT";
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    cs~skip_bits(2);
+    var msg_bounceable = cs~load_int(1);
+    var msg_bounced = cs~load_int(1);
+    slice msg_sender_addr = cs~load_msg_addr();
+    __tact_context = (msg_bounceable, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var ($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms) = $Treasury$_contract_load();
+    
+    ;; Handle bounced messages
+    if (msg_bounced) { return (); }
+    int op = 0;
+    int in_msg_length = slice_bits(in_msg);
+    if (in_msg_length >= 32) {
+        op = in_msg~load_uint(32);
+    }
+    ;; Empty Receiver and Text Receivers
+    var text_op = slice_hash(in_msg);
+    ;; Receive "open_room" message
+    if (text_op == 0x90749feb14c2fda253536c99587706f062ad151ec413d58a3a06028f7cced1a7) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "enter_paid" message
+    if (text_op == 0x1965172e995d3dfe36ccfac1fd31d9136f9e96ef54ab2dcf5e85043fc7c57a7e) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "close_room" message
+    if (text_op == 0xda18ac76f0b7a9f079b0d3acde58803199dd9e46738a934e5c963bc0a2485b95) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "payout_paid" message
+    if (text_op == 0xf23c37f73cab6a0fcf1f42d30f11c93ebbe3d3616094c478390d4ce10207c871) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "fund_airdrop" message
+    if (text_op == 0xae1f55287d6c4d2042cc5941a8a23c971d49bf5e554d4fa78ae730638e083cb7) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "payout_airdrop" message
+    if (text_op == 0x0b6d2c55bb90818ec916f0561c56fe51465f66acabbf47bb6271becfcbbf2d0c) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Receive "upgrade" message
+    if (text_op == 0xc6f7cca7186d0118c20b0711c5681080e5eeb8059ad9c80230abff857605a67e) {
+        $Treasury$_contract_store(($self'owner, $self'upgrade_authority, $self'airdrop_pool, $self'rooms));
+        return ();
+    }
+    ;; Throw if not handled
+    throw(130);
+}
+
+
+() __tact_selector_hack_asm() impure asm """
+@atend @ 1 {
+        execute current@ context@ current!
+        {
+            // The core idea of this function is to save gas by avoiding unnecessary dict jump, when recv_internal/recv_external is called
+            // We want to extract recv_internal/recv_external from the dict and select needed function
+            // not by jumping to the needed function by it's index, but by using usual IF statements.
+
+            }END> b> // Close previous builder, now we have a cell of previous code on top of the stack
+
+            <{ // Start of the new code builder
+                SETCP0
+                // Swap the new code builder with the previous code, now we have previous code on top of the stack
+                swap
+                // Transform cell to slice and load first ref from the previous code, now we have the dict on top of the stack
+                <s ref@
+
+                // Extract the recv_internal from the dict
+                dup 0 swap @procdictkeylen idict@ { "internal shortcut error" abort } ifnot
+                swap
+
+                // Delete the recv_internal from the dict
+                0 swap @procdictkeylen idict- drop
+                // Delete the recv_external from the dict (it's okay if it's not there)
+                -1 swap @procdictkeylen idict- drop
+                // Delete the __tact_selector_hack from the dict
+                65535 swap @procdictkeylen idict- drop
+
+                // Bring the code builder from the bottom of the stack
+                // because if recv_external extraction is optional, and the number of elements on the stack is not fixed
+                depth 1- roll
+                // Swap with the dict from which we extracted recv_internal and (maybe) recv_external
+                swap
+
+                // Check if the dict is empty
+                dup null?
+                // Store a copy of this flag in the bottom of the stack
+                dup depth 1- -roll
+                {
+                    // If the dict is empty, just drop it (it will be null if it's empty)
+                    drop
+                }
+                {
+                    // If the dict is not empty, prepare continuation to be stored in c3
+                    <{
+                        // Save this dict as first ref in this continuation, it will be pushed in runtime by DICTPUSHCONST
+                        swap @procdictkeylen DICTPUSHCONST
+                        // Jump to the needed function by it's index
+                        DICTIGETJMPZ
+                        // If such key is not found, throw 11 along with the key as an argument
+                        11 THROWARG
+                    }> PUSHCONT
+                    // Store the continuation in c3
+                    c3 POP
+                } cond
+
+                // Function id is on top of the (runtime) stack
+                DUP IFNOTJMP:<{
+                    // place recv_internal here
+                    DROP swap @addop
+                }>
+
+                // Bring back the flag, indicating if the dict is empty or not from the bottom of the stack
+                depth 1- roll
+                {
+                    // If the dict is empty, throw 11
+                    11 THROWARG
+                }
+                {
+                    // If the dict is not empty, jump to continuation from c3
+                    c3 PUSH JMPX
+                } cond
+            }> b>
+        } : }END>c
+        current@ context! current!
+    } does @atend !
+""";
+
+() __tact_selector_hack() method_id(65535) {
+    return __tact_selector_hack_asm();
+}
