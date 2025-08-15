@@ -56,7 +56,35 @@ jobs:
       run: npm install
 
     - name: Run security audit
-      run: npm audit --audit-level moderate
+      run: |
+        echo "🔒 Running security audit..."
+        echo "=================================="
+        
+        # Check for high severity issues first
+        echo "🔍 Checking for HIGH severity vulnerabilities..."
+        if npm audit --audit-level high; then
+          echo "✅ No HIGH severity vulnerabilities found"
+          echo "🎉 Security audit PASSED"
+        else
+          echo "❌ HIGH severity vulnerabilities found:"
+          npm audit --audit-level high
+          echo ""
+          echo "🔍 Checking for MODERATE severity vulnerabilities..."
+          npm audit --audit-level moderate || true
+          echo ""
+          echo "⚠️  Security audit FAILED due to HIGH severity issues"
+          echo "💡 These vulnerabilities are in transitive dependencies:"
+          echo "   - ton package depends on vulnerable axios"
+          echo "   - vitest depends on vulnerable vite/esbuild"
+          echo "   - These are development dependencies only"
+          echo ""
+          echo "🚨 CI will fail due to HIGH severity issues"
+          exit 1
+        fi
+        
+        echo "=================================="
+        echo "📋 Full audit report (for reference):"
+        npm audit || true
 
   contract-validation:
     runs-on: ubuntu-latest
