@@ -25,12 +25,12 @@
   "include": [
     "scripts/**/*",
     "tests/**/*",
-    "contracts/**/*"
+    "contracts/**/*",
+    "wrappers/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "build",
-    "wrappers"
+    "build"
   ]
 } 

@@ -1,4 +1,7 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core'
+import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from '@ton/core'
+
+// Import compiled contract code
+import { Counter as CounterContract } from '../contracts/counter.tact_Counter'
 
 export type CounterConfig = {
   owner: Address
@@ -28,8 +31,11 @@ export class Counter implements Contract {
       counter: 0
     }
     const data = counterConfigToCell(config)
-    const code = Cell.EMPTY // This would normally be the compiled contract code
-    const init = { code, data }
+    
+    // Use the compiled contract's init function to get code and data
+    const { code, data: initData } = await CounterContract.init(owner)
+    
+    const init = { code, data: initData }
     const address = contractAddress(0, init)
     return new Counter(address, init)
   }

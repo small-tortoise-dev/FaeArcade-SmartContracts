@@ -761,7 +761,15 @@ export type Treasury$Data = {
     owner: Address;
     upgrade_authority: Address;
     airdrop_pool: bigint;
-    rooms: Dictionary<bigint, bigint>;
+    current_room_key: bigint;
+    current_room_entry_fee: bigint;
+    current_room_winners_count: bigint;
+    current_room_status: bigint;
+    current_room_pool: bigint;
+    current_room_total_entries: bigint;
+    current_room_paid_hash: bigint;
+    HOUSE_FEE_BPS: bigint;
+    HOUSE_FEE_DENOMINATOR: bigint;
 }
 
 export function storeTreasury$Data(src: Treasury$Data) {
@@ -770,7 +778,21 @@ export function storeTreasury$Data(src: Treasury$Data) {
         b_0.storeAddress(src.owner);
         b_0.storeAddress(src.upgrade_authority);
         b_0.storeInt(src.airdrop_pool, 257);
-        b_0.storeDict(src.rooms, Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257));
+        const b_1 = new Builder();
+        b_1.storeInt(src.current_room_key, 257);
+        b_1.storeInt(src.current_room_entry_fee, 257);
+        b_1.storeInt(src.current_room_winners_count, 257);
+        const b_2 = new Builder();
+        b_2.storeInt(src.current_room_status, 257);
+        b_2.storeInt(src.current_room_pool, 257);
+        b_2.storeInt(src.current_room_total_entries, 257);
+        const b_3 = new Builder();
+        b_3.storeInt(src.current_room_paid_hash, 257);
+        b_3.storeInt(src.HOUSE_FEE_BPS, 257);
+        b_3.storeInt(src.HOUSE_FEE_DENOMINATOR, 257);
+        b_2.storeRef(b_3.endCell());
+        b_1.storeRef(b_2.endCell());
+        b_0.storeRef(b_1.endCell());
     };
 }
 
@@ -779,24 +801,51 @@ export function loadTreasury$Data(slice: Slice) {
     const _owner = sc_0.loadAddress();
     const _upgrade_authority = sc_0.loadAddress();
     const _airdrop_pool = sc_0.loadIntBig(257);
-    const _rooms = Dictionary.load(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), sc_0);
-    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, rooms: _rooms };
+    const sc_1 = sc_0.loadRef().beginParse();
+    const _current_room_key = sc_1.loadIntBig(257);
+    const _current_room_entry_fee = sc_1.loadIntBig(257);
+    const _current_room_winners_count = sc_1.loadIntBig(257);
+    const sc_2 = sc_1.loadRef().beginParse();
+    const _current_room_status = sc_2.loadIntBig(257);
+    const _current_room_pool = sc_2.loadIntBig(257);
+    const _current_room_total_entries = sc_2.loadIntBig(257);
+    const sc_3 = sc_2.loadRef().beginParse();
+    const _current_room_paid_hash = sc_3.loadIntBig(257);
+    const _HOUSE_FEE_BPS = sc_3.loadIntBig(257);
+    const _HOUSE_FEE_DENOMINATOR = sc_3.loadIntBig(257);
+    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, current_room_key: _current_room_key, current_room_entry_fee: _current_room_entry_fee, current_room_winners_count: _current_room_winners_count, current_room_status: _current_room_status, current_room_pool: _current_room_pool, current_room_total_entries: _current_room_total_entries, current_room_paid_hash: _current_room_paid_hash, HOUSE_FEE_BPS: _HOUSE_FEE_BPS, HOUSE_FEE_DENOMINATOR: _HOUSE_FEE_DENOMINATOR };
 }
 
 export function loadTupleTreasury$Data(source: TupleReader) {
     const _owner = source.readAddress();
     const _upgrade_authority = source.readAddress();
     const _airdrop_pool = source.readBigNumber();
-    const _rooms = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), source.readCellOpt());
-    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, rooms: _rooms };
+    const _current_room_key = source.readBigNumber();
+    const _current_room_entry_fee = source.readBigNumber();
+    const _current_room_winners_count = source.readBigNumber();
+    const _current_room_status = source.readBigNumber();
+    const _current_room_pool = source.readBigNumber();
+    const _current_room_total_entries = source.readBigNumber();
+    const _current_room_paid_hash = source.readBigNumber();
+    const _HOUSE_FEE_BPS = source.readBigNumber();
+    const _HOUSE_FEE_DENOMINATOR = source.readBigNumber();
+    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, current_room_key: _current_room_key, current_room_entry_fee: _current_room_entry_fee, current_room_winners_count: _current_room_winners_count, current_room_status: _current_room_status, current_room_pool: _current_room_pool, current_room_total_entries: _current_room_total_entries, current_room_paid_hash: _current_room_paid_hash, HOUSE_FEE_BPS: _HOUSE_FEE_BPS, HOUSE_FEE_DENOMINATOR: _HOUSE_FEE_DENOMINATOR };
 }
 
 export function loadGetterTupleTreasury$Data(source: TupleReader) {
     const _owner = source.readAddress();
     const _upgrade_authority = source.readAddress();
     const _airdrop_pool = source.readBigNumber();
-    const _rooms = Dictionary.loadDirect(Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257), source.readCellOpt());
-    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, rooms: _rooms };
+    const _current_room_key = source.readBigNumber();
+    const _current_room_entry_fee = source.readBigNumber();
+    const _current_room_winners_count = source.readBigNumber();
+    const _current_room_status = source.readBigNumber();
+    const _current_room_pool = source.readBigNumber();
+    const _current_room_total_entries = source.readBigNumber();
+    const _current_room_paid_hash = source.readBigNumber();
+    const _HOUSE_FEE_BPS = source.readBigNumber();
+    const _HOUSE_FEE_DENOMINATOR = source.readBigNumber();
+    return { $$type: 'Treasury$Data' as const, owner: _owner, upgrade_authority: _upgrade_authority, airdrop_pool: _airdrop_pool, current_room_key: _current_room_key, current_room_entry_fee: _current_room_entry_fee, current_room_winners_count: _current_room_winners_count, current_room_status: _current_room_status, current_room_pool: _current_room_pool, current_room_total_entries: _current_room_total_entries, current_room_paid_hash: _current_room_paid_hash, HOUSE_FEE_BPS: _HOUSE_FEE_BPS, HOUSE_FEE_DENOMINATOR: _HOUSE_FEE_DENOMINATOR };
 }
 
 export function storeTupleTreasury$Data(source: Treasury$Data) {
@@ -804,7 +853,15 @@ export function storeTupleTreasury$Data(source: Treasury$Data) {
     builder.writeAddress(source.owner);
     builder.writeAddress(source.upgrade_authority);
     builder.writeNumber(source.airdrop_pool);
-    builder.writeCell(source.rooms.size > 0 ? beginCell().storeDictDirect(source.rooms, Dictionary.Keys.BigInt(257), Dictionary.Values.BigInt(257)).endCell() : null);
+    builder.writeNumber(source.current_room_key);
+    builder.writeNumber(source.current_room_entry_fee);
+    builder.writeNumber(source.current_room_winners_count);
+    builder.writeNumber(source.current_room_status);
+    builder.writeNumber(source.current_room_pool);
+    builder.writeNumber(source.current_room_total_entries);
+    builder.writeNumber(source.current_room_paid_hash);
+    builder.writeNumber(source.HOUSE_FEE_BPS);
+    builder.writeNumber(source.HOUSE_FEE_DENOMINATOR);
     return builder.build();
 }
 
@@ -834,7 +891,7 @@ function initTreasury_init_args(src: Treasury_init_args) {
 }
 
 async function Treasury_init(owner: Address, upgrade_authority: Address) {
-    const __code = Cell.fromHex('b5ee9c7241020f010002cd000228ff008e88f4a413f4bcf2c80bed5320e303ed43d9010902027102040153bf96476a268690000cffd207d20408080eb807a022a98360a4dfd207d202c816880b6b800f16d9e3620c0300022102012005070153b8e89ed44d0d200019ffa40fa40810101d700f40455306c149bfa40fa405902d1016d7001e2db3c6c418060002230153bbf39ed44d0d200019ffa40fa40810101d700f40455306c149bfa40fa405902d1016d7001e2db3c6c4180800022202ec3001d072d721d200d200fa4021103450666f04f86102f862ed44d0d200019ffa40fa40810101d700f40455306c149bfa40fa405902d1016d7001e205925f05e023d749c21f9503d31f3103de03f9012082f090749feb14c2fda253536c99587706f062ad151ec413d58a3a06028f7cced1a7bae302200a0b0030304003c87f01ca0055305034cece810101cf00f400c9ed5401fc82f01965172e995d3dfe36ccfac1fd31d9136f9e96ef54ab2dcf5e85043fc7c57a7eba8e18304003c87f01ca0055305034cece810101cf00f400c9ed54e02082f0da18ac76f0b7a9f079b0d3acde58803199dd9e46738a934e5c963bc0a2485b95ba8e18304003c87f01ca0055305034cece810101cf00f400c9ed54e0200c01fc82f0f23c37f73cab6a0fcf1f42d30f11c93ebbe3d3616094c478390d4ce10207c871ba8e18304003c87f01ca0055305034cece810101cf00f400c9ed54e02082f0ae1f55287d6c4d2042cc5941a8a23c971d49bf5e554d4fa78ae730638e083cb7ba8e18304003c87f01ca0055305034cece810101cf00f400c9ed54e0200d01fa82f00b6d2c55bb90818ec916f0561c56fe51465f66acabbf47bb6271becfcbbf2d0cba8e18304003c87f01ca0055305034cece810101cf00f400c9ed54e082f0c6f7cca7186d0118c20b0711c5681080e5eeb8059ad9c80230abff857605a67eba8e174003c87f01ca0055305034cece810101cf00f400c9ed54e05f040e0006f2c0824f340653');
+    const __code = Cell.fromHex('b5ee9c7241023401000c53000262ff008e88f4a413f4bcf2c80bed53208e9c30eda2edfb01d072d721d200d200fa4021103450666f04f86102f862e1ed43d9011b020271020d020120030501e3bb084ed44d0d200018e48fa40fa40810101d700d401d0810101d700810101d700810101d700d430d0810101d700810101d700810101d700d430d0810101d700810101d700810101d70030109c109b109a6c1c8e18fa40fa405902d1018100fa81271070547000547000205517e2db3c6cc1804000227020120060801e3b7e8fda89a1a400031c91f481f481020203ae01a803a1020203ae01020203ae01020203ae01a861a1020203ae01020203ae01020203ae01a861a1020203ae01020203ae01020203ae0060213821362134d8391c31f481f480b205a2030201f5024e20e0a8e000a8e00040aa2fc5b678d983007000224020158090b01e3ad6476a268690000c7247d207d20408080eb806a00e8408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb8018084e084d884d360e470c7d207d202c816880c0807d409388382a38002a3800102a8bf16d9e3660c00a00022901e3ad91f6a268690000c7247d207d20408080eb806a00e8408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb8018084e084d884d360e470c7d207d202c816880c0807d409388382a38002a3800102a8bf16d9e3660c00c0002260201200e130202710f1101e2a948ed44d0d200018e48fa40fa40810101d700d401d0810101d700810101d700810101d700d430d0810101d700810101d700810101d700d430d0810101d700810101d700810101d70030109c109b109a6c1c8e18fa40fa405902d1018100fa81271070547000547000205517e2db3c6cc11000022301e2aa89ed44d0d200018e48fa40fa40810101d700d401d0810101d700810101d700810101d700d430d0810101d700810101d700810101d700d430d0810101d700810101d700810101d70030109c109b109a6c1c8e18fa40fa405902d1018100fa81271070547000547000205517e2db3c6cc11200022b020158141601e3b031fb513434800063923e903e9020404075c035007420404075c020404075c020404075c0350c3420404075c020404075c020404075c0350c3420404075c020404075c020404075c00c04270426c4269b0723863e903e901640b44060403ea049c41c151c00151c00081545f8b6cf1b306015000221020120171901e3ac93f6a268690000c7247d207d20408080eb806a00e8408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb8018084e084d884d360e470c7d207d202c816880c0807d409388382a38002a3800102a8bf16d9e3660c01800022501e3af9cf6a268690000c7247d207d20408080eb806a00e8408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb806a1868408080eb80408080eb80408080eb8018084e084d884d360e470c7d207d202c816880c0807d409388382a38002a3800102a8bf16d9e3660c01a00022a02f6ed44d0d200018e48fa40fa40810101d700d401d0810101d700810101d700810101d700d430d0810101d700810101d700810101d700d430d0810101d700810101d700810101d70030109c109b109a6c1c8e18fa40fa405902d1018100fa81271070547000547000205517e20d925f0de02bd749c21fe3000bf901201c1e01ac0bd31f018210946a98b6ba8ec7d33f30c8018210aff90f5758cb1fcb3fc910ac109b108a10791068105710461035443012f84270705003804201503304c8cf8580ca00cf8440ce01fa02806acf40f400c901fb00e00b1d00a8c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed54db3104e482f090749feb14c2fda253536c99587706f062ad151ec413d58a3a06028f7cced1a7bae3022082f01965172e995d3dfe36ccfac1fd31d9136f9e96ef54ab2dcf5e85043fc7c57a7ebae3022082f0da18ac76f0b7a9f079b0d3acde58803199dd9e46738a934e5c963bc0a2485b95bae302201f20212200f410475f0781303982103b9aca008064816b0f04c00014f2f471705300109b108a1079105810475513c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed540182308116fb24c001f2f4258200eb66f8416f24135f0358baf2f4f8416f24135f032ba82ca904f8416f24135f0301a113a001a4109b108a10791068105710460350452900d8308116fb04c00114f2f4108a1079106810571046103570443512c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed5404e282f0f23c37f73cab6a0fcf1f42d30f11c93ebbe3d3616094c478390d4ce10207c871bae3022082f0ae1f55287d6c4d2042cc5941a8a23c971d49bf5e554d4fa78ae730638e083cb7bae3022082f00b6d2c55bb90818ec916f0561c56fe51465f66acabbf47bb6271becfcbbf2d0cbae302232a2b3204fe308200c69d04c00014f2f481416f03c00013f2f473238200f4a701c003f2f45210a9048d086007c0a7d5f1e88713d9205491662a68da90795ce284555c7a5ffe6b93354d074f5c8d0860037ade33cc37032184b0ecef80219c935266c972cbeeec553021b22d6105e8bc148988542340706d50426d50427fc8cf8580ca008924272526004380107bfaaa5cc6e5368e5f9799188bd798cd22e04ab16d1d8ea4fc37480741e6351000011003fecf16ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00885230706d50426d50427fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb008812706d50426d50427fc8cf8580ca00cf8440ce01fa028069cf402727280014000000005061796f75740164025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb00107910681057104610351024725034813039592900a4c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed5400d830f8416f24135f0318a0109b108a091068105710461035443012c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed5404fe3007ab0020ab008d086007c0a7d5f1e88713d9205491662a68da90795ce284555c7a5ffe6b93354d074f5c8d0860037ade33cc37032184b0ecef80219c935266c972cbeeec553021b22d6105e8bc1488542230706d50426d50427fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf818ae2f400c901fb00882c312c2d002a00000000546f702057696e6e6572205061796f757403fe12706d50426d50427fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb0935bcf819d58cf8680cf8480f400f400cf81e2f400c901fb008d0860041efeaa9731b94da397e5e64622f5e63348b812ac5b4763a93f0dd201d0798d448812706d50426d50427fc8cf8580ca00cf8440ce01fa028069cf40025c6e016eb08a2e2f3000300000000053747265616b2057696e6e6572205061796f757400065bcf8101d68ae2f400c901fb00108a107970091068105710461035443012c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed5431001a58cf8680cf8480f400f400cf8101fc82f0c6f7cca7186d0118c20b0711c5681080e5eeb8059ad9c80230abff857605a67eba8e56109b5518c87f01ca0055b050bcce19ce17810101cf0005c8810101cf0014810101cf0012810101cf0001c8810101cf0012810101cf0013810101cf0003c8810101cf0014810101cf0014810101cf00cd12cdcdc9ed54e05f0c330006f2c08250aaca37');
     const builder = beginCell();
     builder.storeUint(0, 1);
     initTreasury_init_args({ $$type: 'Treasury_init_args', owner, upgrade_authority })(builder);
@@ -879,6 +936,12 @@ export const Treasury_errors = {
     135: { message: "Code of a contract was not found" },
     136: { message: "Invalid standard address" },
     138: { message: "Not a basechain address" },
+    5883: { message: "Room is not open" },
+    16751: { message: "Room already paid" },
+    27407: { message: "Room already exists" },
+    50845: { message: "Room is not closed" },
+    60262: { message: "Incorrect entry fee" },
+    62631: { message: "Winners count mismatch" },
 } as const
 
 export const Treasury_errors_backward = {
@@ -918,6 +981,12 @@ export const Treasury_errors_backward = {
     "Code of a contract was not found": 135,
     "Invalid standard address": 136,
     "Not a basechain address": 138,
+    "Room is not open": 5883,
+    "Room already paid": 16751,
+    "Room already exists": 27407,
+    "Room is not closed": 50845,
+    "Incorrect entry fee": 60262,
+    "Winners count mismatch": 62631,
 } as const
 
 const Treasury_types: ABIType[] = [
@@ -934,7 +1003,7 @@ const Treasury_types: ABIType[] = [
     {"name":"Deploy","header":2490013878,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"DeployOk","header":2952335191,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"FactoryDeploy","header":1829761339,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"cashback","type":{"kind":"simple","type":"address","optional":false}}]},
-    {"name":"Treasury$Data","header":null,"fields":[{"name":"owner","type":{"kind":"simple","type":"address","optional":false}},{"name":"upgrade_authority","type":{"kind":"simple","type":"address","optional":false}},{"name":"airdrop_pool","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"rooms","type":{"kind":"dict","key":"int","value":"int"}}]},
+    {"name":"Treasury$Data","header":null,"fields":[{"name":"owner","type":{"kind":"simple","type":"address","optional":false}},{"name":"upgrade_authority","type":{"kind":"simple","type":"address","optional":false}},{"name":"airdrop_pool","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_key","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_entry_fee","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_winners_count","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_status","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_pool","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_total_entries","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"current_room_paid_hash","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"HOUSE_FEE_BPS","type":{"kind":"simple","type":"int","optional":false,"format":257}},{"name":"HOUSE_FEE_DENOMINATOR","type":{"kind":"simple","type":"int","optional":false,"format":257}}]},
 ]
 
 const Treasury_opcodes = {
@@ -947,12 +1016,24 @@ const Treasury_getters: ABIGetter[] = [
     {"name":"getOwner","methodId":102025,"arguments":[],"returnType":{"kind":"simple","type":"address","optional":false}},
     {"name":"getUpgradeAuthority","methodId":130873,"arguments":[],"returnType":{"kind":"simple","type":"address","optional":false}},
     {"name":"getAirdropPool","methodId":94920,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getCurrentRoomEntryFee","methodId":77956,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getCurrentRoomWinnersCount","methodId":97059,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getCurrentRoomStatus","methodId":127271,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getCurrentRoomPool","methodId":89927,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getCurrentRoomTotalEntries","methodId":100680,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
+    {"name":"getHouseFeeBps","methodId":123079,"arguments":[],"returnType":{"kind":"simple","type":"int","optional":false,"format":257}},
 ]
 
 export const Treasury_getterMapping: { [key: string]: string } = {
     'getOwner': 'getGetOwner',
     'getUpgradeAuthority': 'getGetUpgradeAuthority',
     'getAirdropPool': 'getGetAirdropPool',
+    'getCurrentRoomEntryFee': 'getGetCurrentRoomEntryFee',
+    'getCurrentRoomWinnersCount': 'getGetCurrentRoomWinnersCount',
+    'getCurrentRoomStatus': 'getGetCurrentRoomStatus',
+    'getCurrentRoomPool': 'getGetCurrentRoomPool',
+    'getCurrentRoomTotalEntries': 'getGetCurrentRoomTotalEntries',
+    'getHouseFeeBps': 'getGetHouseFeeBps',
 }
 
 const Treasury_receivers: ABIReceiver[] = [
@@ -963,6 +1044,7 @@ const Treasury_receivers: ABIReceiver[] = [
     {"receiver":"internal","message":{"kind":"text","text":"fund_airdrop"}},
     {"receiver":"internal","message":{"kind":"text","text":"payout_airdrop"}},
     {"receiver":"internal","message":{"kind":"text","text":"upgrade"}},
+    {"receiver":"internal","message":{"kind":"typed","type":"Deploy"}},
 ]
 
 
@@ -1000,7 +1082,7 @@ export class Treasury implements Contract {
         this.init = init;
     }
     
-    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: "open_room" | "enter_paid" | "close_room" | "payout_paid" | "fund_airdrop" | "payout_airdrop" | "upgrade") {
+    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: "open_room" | "enter_paid" | "close_room" | "payout_paid" | "fund_airdrop" | "payout_airdrop" | "upgrade" | Deploy) {
         
         let body: Cell | null = null;
         if (message === "open_room") {
@@ -1023,6 +1105,9 @@ export class Treasury implements Contract {
         }
         if (message === "upgrade") {
             body = beginCell().storeUint(0, 32).storeStringTail(message).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Deploy') {
+            body = beginCell().store(storeDeploy(message)).endCell();
         }
         if (body === null) { throw new Error('Invalid message type'); }
         
@@ -1047,6 +1132,48 @@ export class Treasury implements Contract {
     async getGetAirdropPool(provider: ContractProvider) {
         const builder = new TupleBuilder();
         const source = (await provider.get('getAirdropPool', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetCurrentRoomEntryFee(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getCurrentRoomEntryFee', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetCurrentRoomWinnersCount(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getCurrentRoomWinnersCount', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetCurrentRoomStatus(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getCurrentRoomStatus', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetCurrentRoomPool(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getCurrentRoomPool', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetCurrentRoomTotalEntries(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getCurrentRoomTotalEntries', builder.build())).stack;
+        const result = source.readBigNumber();
+        return result;
+    }
+    
+    async getGetHouseFeeBps(provider: ContractProvider) {
+        const builder = new TupleBuilder();
+        const source = (await provider.get('getHouseFeeBps', builder.build())).stack;
         const result = source.readBigNumber();
         return result;
     }
