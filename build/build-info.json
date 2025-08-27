@@ -1,11 +1,10 @@
 {
-  "timestamp": "2025-08-15T07:41:55.614Z",
+  "timestamp": "2025-08-20T07:10:18.479Z",
   "version": "1.0.0",
   "contracts": [
-    "counter",
     "Treasury"
   ],
   "status": "built",
   "totalContracts": 2,
-  "successfulCompilations": 2
+  "successfulCompilations": 1
 }

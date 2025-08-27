@@ -4,7 +4,11 @@ export const config: Blueprint = {
   contracts: {
     Counter: {
       path: '../contracts/counter.tact',
-      output: '../build/counter',
+      output: '../contracts',
+    },
+    Treasury: {
+      path: '../contracts/Treasury.tact',
+      output: '../contracts',
     },
   },
   networks: {

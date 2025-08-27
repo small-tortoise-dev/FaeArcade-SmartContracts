@@ -1,10 +1,9 @@
 #!/usr/bin/env tsx
 
-import { Address, toNano } from 'ton-core'
+import { Address } from 'ton-core'
 import { 
   TREASURY_ADDRESS, 
   createMessageBody, 
-  sendTransaction, 
   validateRoomId, 
   validateDay,
   TreasuryError 
@@ -27,51 +26,53 @@ async function closeRoom(
     // Create message body
     const body = createMessageBody('close_room', [roomId, day])
     
-    // Send transaction
+    // Parse treasury address
     const treasuryAddress = Address.parse(TREASURY_ADDRESS)
-    const transaction = await sendTransaction(
-      treasuryAddress,
-      toNano('0.1'), // Gas fee
-      body
-    )
     
-    console.log('✅ Room closed successfully!')
-    console.log(`📊 Room ID: ${roomId}`)
-    console.log(`📅 Day: ${day}`)
-    console.log(`🔗 Transaction sent successfully`)
+    console.log('Close room prepared successfully!')
+    console.log(`Room ID: ${roomId}`)
+    console.log(`Day: ${day}`)
+    console.log(`Treasury Address: ${treasuryAddress.toString()}`)
+    console.log(`Message Body: ${body.toString()}`)
     
-    return transaction
+    console.log('\nTo actually close the room, you need to:')
+    console.log('1. Use Tonkeeper wallet to send this message')
+    console.log('2. Or use Blueprint for deployment')
+    console.log('3. Or implement wallet integration')
+    
+    return {
+      roomId,
+      day,
+      treasuryAddress: treasuryAddress.toString(),
+      messageBody: body.toString()
+    }
     
   } catch (error) {
     if (error instanceof TreasuryError) {
-      console.error(`❌ Treasury Error: ${error.message}`)
-      console.error(`🔍 Error Code: ${error.code}`)
+      console.error(`Treasury Error: ${error.message}`)
+      console.error(`Error Code: ${error.code}`)
     } else {
-      console.error('❌ Unexpected error:', error)
+      console.error('Unexpected error:', error)
     }
     throw error
   }
 }
 
 // CLI usage
-if (require.main === module) {
-  const args = process.argv.slice(2)
-  
-  if (args.length !== 2) {
-    console.log('Usage: tsx closeRoom.ts <roomId> <day>')
-    console.log('Example: tsx closeRoom.ts 12345 20241201')
-    process.exit(1)
-  }
-  
-  const [roomId, day] = args
-  
-  closeRoom(
-    parseInt(roomId),
-    parseInt(day)
-  ).catch(error => {
-    console.error('Failed to close room:', error.message)
-    process.exit(1)
-  })
+const args = process.argv.slice(2)
+
+if (args.length !== 2) {
+  console.log('Usage: tsx closeRoom.ts <roomId> <day>')
+  console.log('Example: tsx closeRoom.ts 12345 20241201')
+  process.exit(1)
 }
 
-export { closeRoom } 
+const [roomId, day] = args
+
+closeRoom(
+  parseInt(roomId),
+  parseInt(day)
+).catch(error => {
+  console.error('Failed to close room:', error.message)
+  process.exit(1)
+}) 
