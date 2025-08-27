@@ -12,13 +12,11 @@ export async function run(provider: NetworkProvider) {
     console.log('Address:', deployer)
     console.log('Network: testnet')
     
-    // Dynamically import the Treasury wrapper
-    const { Treasury } = await import('../wrappers/Treasury')
+    // Dynamically import the Treasury contract
+    const { Treasury } = await import('../contracts/Treasury.tact_Treasury')
     
-    // Create Treasury contract
-    const treasury = provider.open(
-      await Treasury.fromInit(deployer, deployer) // owner = upgrade_authority
-    )
+    // Compile the contract
+    const treasury = await Treasury.fromInit(deployer, deployer) // owner = upgrade_authority
     
     console.log('\n📋 Contract Configuration:')
     console.log('Owner:', deployer)
@@ -53,7 +51,7 @@ export async function run(provider: NetworkProvider) {
     console.log('\n✅ Deployment transaction sent!')
     console.log('Waiting for confirmation...')
     
-    // Wait for deployment
+    // Wait for deployment confirmation
     await provider.waitForDeploy(treasury.address)
     
     console.log('\n🎉 Treasury Contract Deployed Successfully!')

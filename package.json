@@ -13,6 +13,7 @@
     "deploy": "tsx scripts/deploy.ts",
     "deploy:testnet": "tsx scripts/deploy.ts --network testnet",
     "deploy:mainnet": "tsx scripts/deploy.ts --network mainnet",
+    "test:treasury": "tsx scripts/testTreasury.ts",
     "script": "tsx",
     "clean": "rimraf build dist"
   },
